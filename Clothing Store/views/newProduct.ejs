@@ -1,0 +1,92 @@
+<%- include('partials/header.ejs') %>
+  <title>Add Product</title>
+  <link rel="stylesheet" href="css/newProduct.css" />
+</head>
+
+<body>
+  <header class="header">
+    <ul>
+      <li id="om">Online Marketplace</li>
+      <li id="c0"><a class="c1" href="/cart">Cart</a>(</li>
+      <P id=cartCounter>0</P>
+      <P id="c2">)</P>
+      <li><a id="c3" href="/">Store Main</a></li>
+    </ul>
+  </header>
+  <h1>New Product</h1>
+
+  <form>
+    <input id="name" type="text" placeholder="Name" />
+    <input id="description" type="text" max="100" placeholder="Description" />
+    <input id="url" type="url" placeholder="Photo URL" />
+    <input id="quantity" type="text" placeholder="Quantity" />
+    <input id="price" type="text" placeholder="Price" />
+  </form>
+
+  <button id="submit">Submit</button>
+  <button id="cancel">Cancel</button>
+
+
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script> 
+
+    var cartProduct = [];
+    if (window.localStorage.getItem('cartProduct')) {
+        cartProduct = JSON.parse(window.localStorage.getItem('cartProduct'));
+    }
+    $('#cartCounter').text(cartProduct.length);
+
+    $('#submit').click(function() {
+      let product = {
+        name: $('#name').val(),
+        description: $('#description').val(),
+        url: $('#url').val(),
+        quantity: $('#quantity').val(),
+        price: $('#price').val(),
+      };
+  var descriptionMax = 800;
+  var nameMax=30;
+  var descriptionLength = $('#description').val().length;
+  var nameLength = $('#name').val().length;
+  
+  if (descriptionLength >= descriptionMax) {
+    alert('Description Input size exceeded preferred limit. ')
+    return;
+  }
+  if (nameLength >=nameMax) {
+    alert('Description Input size exceeded preferred limit. ')
+    return;
+  }
+ 
+if(product.name&&product.description&&product.url&&product.quantity&&product.price){
+      $.ajax({
+        type: 'POST',
+        url: '/newProduct',
+        data: product,
+        success: response => {
+          console.log(response);
+        },
+        error: response => {
+          console.log(response);
+        }
+
+      });
+     alert('Product '+name+' is added to the market')
+    }
+    else{
+      alert('Missing input data.')
+    }
+
+    });
+//------------------------------------------------------------------------------------------------------------    
+    $('#cancel').click(function () {
+        $('#name').val("");
+        $('#description').val("");
+        $('#url').val(""),
+        $('#quantity').val("");
+        $('#price').val("");
+    });
+   
+  </script>
+  
+<%- include('partials/footer.ejs') %>  

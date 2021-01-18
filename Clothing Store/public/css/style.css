@@ -1,0 +1,181 @@
+* {
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+}
+.header ul {
+    margin: 0;
+}
+.header li {
+    display: inline;
+}
+.header {
+    position:fixed;
+    background-color: green;
+    width:100%;
+    top:0;
+    height: 3.25rem;
+}
+.cart-items{
+    background: aquamarine;
+    position: fixed;
+    max-height: 35rem;
+    overflow-y: auto;
+}
+#divCartItem{
+    position:relative;
+    border: 5px solid green;
+}
+button{
+border: 5px solid green;
+padding: 8px 10px;
+
+}
+.cart-items {
+    position:absolute;
+    top:8.5rem;
+    width: 50%;
+    left: 30rem;
+}
+.cartQuantity, .plus, .minus, .takaLabel, .labelPrice{
+    display: inline;
+    position: absolute;
+    bottom: 5rem;
+    left: 5rem;
+}
+.plus{
+    cursor: pointer;
+    left: 20.5rem;
+    text-align: center;
+    font-size: large;
+}
+.minus{
+    cursor: pointer;
+    left: 12rem;
+    text-align: center;
+    font-size: large;
+}
+.takaLabel, .labelPrice{
+    display: inline;
+    left: 24rem;
+    width:0%;
+}
+.labelPrice{
+    left: 26.5rem;
+}
+.cartRemove{
+    position:absolute;
+    cursor: pointer;
+    left: 35rem;
+    bottom: 2rem;
+}
+
+#image, #cartName{
+    display:block;
+}
+#cartPrice{
+    margin-right: 5rem;
+    text-align: center;
+    font-size: large;
+    width: 0%;
+}
+#cartName{
+    margin-right: 5rem;
+    text-align: center;
+    font-size: large;
+    width: 0%;
+}
+#allMoney{
+    position: relative;
+}
+#totalTaka, .totalPrice{
+    position: absolute;
+    display: inline;
+    width:0%;
+    font-size: xx-large;
+}
+#totalTaka{
+    top: 20rem;
+    width:20%;
+    left: 2rem;
+}
+.totalPrice{
+    top:17.2rem;
+    left: 12rem;
+}
+.buttonPurchase{
+    position:absolute;
+    cursor: pointer;
+    top: 18rem;
+    left: 3rem;
+}
+#cartStatus{
+    position:absolute;
+    font-size: xx-large;
+    width: 20%;
+    top: 20rem;
+    left: 45rem;
+}
+.totalPrice{
+    margin-top: 5rem;
+    font-size: xx-large;
+}
+.cartQuantity{
+
+    left: 15rem;
+    padding: 8px;
+    width: 10%;
+    text-align: center;
+    font-size: large;
+}
+
+#om{
+    position: fixed;
+    padding-top: none;
+    margin-top: none;
+    width:auto;
+    font-size: x-large;
+    top:1rem;
+}
+.newP{
+    position: absolute;
+    right: 18rem;
+    top: 1rem;
+    font-size: large;
+}
+.storeF{
+    position: absolute;
+    right: 5rem;
+    top: 1rem;
+    font-size: large;
+    
+}
+#mainhead{
+  position:absolute;
+  width: 20%;
+  left: 2rem;
+  top: 4rem;
+}
+.c1{
+    position: absolute;
+    font-size: large;
+    top:0;
+    right: 54.5rem;
+    width:0%;
+}
+#cartCounter{
+    position: absolute;
+    font-size: large;
+    top:0px;
+    left: 44.5rem;
+    width:0%;
+}
+.c2{
+    position: absolute;
+    font-size: large;
+    top:0px;
+    left: 45.5rem;
+    width:0%;
+}

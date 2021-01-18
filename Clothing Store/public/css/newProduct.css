@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+   
+}
+.header {
+    position:fixed;
+    background-color: green;
+    width:100%;
+    top:0;
+    height: 3.25rem;
+}
+.header ul {
+    margin: 0;
+}
+.header li {
+    display: inline;
+}
+#name, #description, #url, #quantity, #price{
+    display: block;
+    width: 100%;
+    border: 2px solid green;
+    border-radius: 4px;
+    margin: 8px 0;
+    outline: none;
+    padding: 15px;
+   transition: 3s;
+    
+}
+#name:focus{
+    border-color: dodgerblue;
+    box-shadow: 0 0 8px 0 dodgerBlue;
+}
+form{
+    margin: 50px auto;
+    width: 320px;
+}
+h1{
+    text-align: center;
+}
+button{
+   border: 1px solid green;
+   background: none;
+   padding: 8px 15px;
+   font-size: 20px;
+   cursor: pointer;
+   margin: 40px;
+   transition: 0.8s;
+   margin-left: 450px;
+}
+button:hover{
+    color: green;
+}
+#submit{
+    text-align: center;
+    
+}
+#cancel{
+    text-align: center;
+}
+P{
+    width:0%;
+    display: inline;
+}
+#c0{
+    position: absolute;
+    font-size: large;
+    top:17.5px;
+    left: 43.5rem;
+    width:0%;
+}
+.c1{
+    position: absolute;
+    font-size: large;
+    top:0;
+    right: 2rem;
+    width:0%;
+}
+#cartCounter{
+    position: absolute;
+    font-size: large;
+    top:0px;
+    left: 44.5rem;
+    width:0%;
+}
+#c2{
+    position: absolute;
+    font-size: large;
+    top:0px;
+    left: 45.5rem;
+    width:0%;
+}
+#c3{
+    position: absolute;
+    right: 5rem;
+    top: 1rem;
+    font-size: large;
+    
+}
+#om{
+    position: fixed;
+    padding-top: none;
+    margin-top: none;
+    width:auto;
+    font-size: x-large;
+    top:1rem;
+}

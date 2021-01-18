@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+   
+}
+.header {
+    background-color: green;
+    background-blend-mode: multiply;
+    padding-bottom: 25px;
+}
+
+#productView{
+    position:relative;
+}
+
+
+#image{
+    position: absolute;
+    height: 19rem;
+     width: 19rem; 
+     border: 1px;
+    left: 35rem; 
+}
+a{
+   text-align: center;
+}
+.addCartDetail, .backButton{
+    position: fixed;
+    cursor: pointer;
+    display: inline;
+    border: 5px solid blue;
+    padding: 8px 15px;
+    text-align: center;
+    width: 10%;
+}
+.addCartDetail{
+   
+    left: 50rem;
+    bottom: 8rem;
+}
+.backButton{
+  
+    left: 30rem;
+    bottom: 8rem;
+}
+#cartDescription{
+    position: absolute;
+    background: grey;
+    top: 20rem;
+    font-size: large;
+    display:block;
+}
+#cartPrice{
+    position: absolute;
+    bottom: 23rem;
+    left:65rem;
+    font-size: xx-large;
+}
+#cartName{
+    position: absolute;
+    bottom: 25rem;
+    left:20rem;
+    font-size:xx-large;
+}
+P{
+    width:0%;
+    display: inline;
+}
+
