@@ -6,6 +6,9 @@ html, body {
     padding: 0;
    
 }
+a{
+    text-decoration: none;
+}
 .header {
     position:fixed;
     background-color: green;
@@ -19,7 +22,7 @@ html, body {
 .header li {
     display: inline;
 }
-#name, #description, #url, #quantity, #price{
+#name, #description, #url, #quantity, #price, #category{
     display: block;
     width: 100%;
     border: 2px solid green;

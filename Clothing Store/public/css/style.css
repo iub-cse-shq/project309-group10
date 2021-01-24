@@ -5,6 +5,9 @@ html, body {
     margin: 0;
     padding: 0;
 }
+a{
+    text-decoration: none;
+}
 .header ul {
     margin: 0;
 }
@@ -151,6 +154,12 @@ padding: 8px 10px;
     top: 1rem;
     font-size: large;
     
+}
+.storeF2{
+    position: absolute;
+    right: 28rem;
+    top: 1rem;
+    font-size: large;
 }
 #mainhead{
   position:absolute;

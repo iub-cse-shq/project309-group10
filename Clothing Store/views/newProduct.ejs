@@ -19,8 +19,9 @@
     <input id="name" type="text" placeholder="Name" />
     <input id="description" type="text" max="100" placeholder="Description" />
     <input id="url" type="url" placeholder="Photo URL" />
-    <input id="quantity" type="text" placeholder="Quantity" />
-    <input id="price" type="text" placeholder="Price" />
+    <input id="quantity" type="text" placeholder="Quantity" onkeypress="allowNumbersOnly(event)"/>
+    <input id="category" type="text" placeholder="Category" />
+    <input id="price" type="text" placeholder="Price" onkeypress="allowNumbersOnly(event)"/>
   </form>
 
   <button id="submit">Submit</button>
@@ -30,18 +31,15 @@
   <script src="js/jquery-3.5.1.min.js"></script>
   <script> 
 
-    var cartProduct = [];
-    if (window.localStorage.getItem('cartProduct')) {
-        cartProduct = JSON.parse(window.localStorage.getItem('cartProduct'));
-    }
-    $('#cartCounter').text(cartProduct.length);
-
-    $('#submit').click(function() {
+   
+    
+    $('#submit').click(function(event) {
       let product = {
         name: $('#name').val(),
         description: $('#description').val(),
         url: $('#url').val(),
         quantity: $('#quantity').val(),
+        category: $('#category').val(),
         price: $('#price').val(),
       };
   var descriptionMax = 800;
@@ -58,20 +56,22 @@
     return;
   }
  
-if(product.name&&product.description&&product.url&&product.quantity&&product.price){
-      $.ajax({
+if(product.name&&product.description&&product.url&&product.quantity&&product.price&&product.category){
+  
+  $.ajax({
         type: 'POST',
         url: '/newProduct',
         data: product,
         success: response => {
           console.log(response);
+          alert('Product '+product.name+' is added to the market')
         },
         error: response => {
           console.log(response);
         }
 
       });
-     alert('Product '+name+' is added to the market')
+     //alert('Product '+product.name+' is added to the market')
     }
     else{
       alert('Missing input data.')
@@ -84,9 +84,21 @@ if(product.name&&product.description&&product.url&&product.quantity&&product.pri
         $('#description').val("");
         $('#url').val(""),
         $('#quantity').val("");
+        $('#category').val("");
         $('#price').val("");
     });
    
+    function allowNumbersOnly(e) {
+    var code = (e.which) ? e.which : e.keyCode;
+    if (code > 31 && (code < 48 || code > 57)) {
+        e.preventDefault();
+    }
+}
+
+
+
+
+
   </script>
   
 <%- include('partials/footer.ejs') %>  

@@ -1,0 +1,237 @@
+<%- include('partials/header.ejs') %>
+  <title>Product Cart</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+     
+<body>
+
+  <header class="header">
+    <ul>
+      <li id="om">Online Marketplace</li>
+      <a Class="storeF2" href="/admin">Adminstore</a>
+      <a class="newP" href="/newProduct">New Product</a>
+      <a Class="storeF" href="/">Logout</a>
+      <p class="c1">Cart(</p>
+      <P id=cartCounter>0</P>
+      <P class="c2">)</P>
+    </ul>
+  </header>
+
+ <h1 id="mainhead">Shopping Cart</h1>
+    
+
+  <p id="cartStatus">Empty cart </p>
+
+  <div class="cart-items">
+    
+  </div>
+
+  <div id="allMoney">
+    <p id="totalTaka">Total Taka: </p>
+    <p class="totalPrice">0</p>
+  </div>
+  <button class="buttonPurchase" type="button">PURCHASE</button>
+
+
+
+
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script>
+
+   martProduct = JSON.parse(`<%-JSON.stringify(products)%>`);
+
+    if (window.localStorage.getItem('cartProduct')) {
+      cartProduct = JSON.parse(window.localStorage.getItem('cartProduct'))
+
+      if (cartProduct.length == 0) {
+        $('#cartStatus').show();
+      }
+      else {
+        $('#cartStatus').hide();
+        $('#cartCounter').text(cartProduct.length);
+        for (let i = 0; i < cartProduct.length; i++) {
+          let addName = cartProduct[i].name;
+          let addPrice = cartProduct[i].price;
+          let addUrl = cartProduct[i].url;
+          let addItem = `<div id="divCartItem">
+            <img id="image" src="${addUrl}" width="100" height="100"/>
+            <span id="cartName">${addName}</span>
+            
+            <span id="cartPrice">Taka${addPrice}</span>
+            <button class="minus">-</button>
+            <input type="text "class="cartQuantity" value="0" readonly="readonly"/>
+            <button class="plus">+</button>
+            <button class="cartRemove" type="button">REMOVE</button>
+            <p class="takaLabel">Taka: </p>
+            <p class="labelPrice">0</p>
+                  </div>`
+          $('.cart-items').append(addItem);
+        }
+      }
+      
+    }
+
+//---------------------------------------------------------------------------------------------------------------
+
+    $('.cartRemove').click(function (event) {
+      let a = 0;
+      let buttonClicked = $(this).parent().children();
+      let removeItemName = buttonClicked[1].innerText;
+      for (let i = 0; i < cartProduct.length; i++) {
+        if (cartProduct[i].name == removeItemName) {
+          a = i;
+        }
+      }
+      cartProduct.splice(a, 1);
+      window.localStorage.setItem('cartProduct', JSON.stringify(cartProduct));
+      $(this).parent().remove();
+      if (cartProduct.length == 0) {
+        $('#cartStatus').show();
+      }
+      cartPricing();
+      $('#cartCounter').text(cartProduct.length);
+    });
+
+    function cartPricing() {
+      let totalValue = 0;
+      let cartDiv = $('.cart-items').children().children();
+      for (let i = 0; i < cartDiv.length; i++) {
+        if (cartDiv[i].getAttribute("class") == 'labelPrice') {
+          totalValue += parseInt(cartDiv[i].innerText);
+        }
+      }
+      $('.totalPrice').text(totalValue);
+    }
+//--------------------------------------------------------------------------------------------------------------
+$('.plus').click(function(event){
+  var quantityCounter=0, currentValue=0, sumValue=0;
+  quantityCounter+=1;
+  let buttonClickedPlus = $(this).parent().children();
+  var name=buttonClickedPlus[1].innerText;
+  currentValue=parseInt($(buttonClickedPlus[4]).val());
+  if(currentValue>=99){
+    alert('Amount exceeded in stock')
+    return;
+  }
+  $(buttonClickedPlus[4]).val(currentValue+quantityCounter);
+  var itemPrice =parseInt(buttonClickedPlus[2].innerText.substring(4));
+  sumValue = itemPrice*(currentValue+quantityCounter);
+  buttonClickedPlus[8].innerText=sumValue;
+  cartPricing();
+})
+//----------------------------------------------------------------------------------------------------------------
+$('.minus').click(function(event){
+  var quantityCounter=0, currentValue=0, sumValue=0;
+  quantityCounter+=1;
+  let buttonClickedMinus = $(this).parent().children();
+  currentValue=parseInt($(buttonClickedMinus[4]).val());
+  if(currentValue<=0){
+    return;
+  }
+  $(buttonClickedMinus[4]).val(currentValue-quantityCounter);
+  var itemPrice =parseInt(buttonClickedMinus[2].innerText.substring(4));
+  sumValue = itemPrice*(currentValue-quantityCounter);
+  buttonClickedMinus[8].innerText=sumValue;
+  cartPricing();
+})
+//------------------------------------------------------------------------------------------------------------------
+$('.buttonPurchase').click(function () {
+  let aCounter = 0, bCounter = 0, cCounter=0;
+  let arrayA = [];
+  let arrayB = [];
+  let cartDiv = $('.cart-items').children();
+  if (cartDiv.length == 0) {
+    alert('Cart is empty');
+    return; 
+  }
+  else {
+    let currentQuantity = $('.cartQuantity').parent().children();
+    for (let i = 0; i < currentQuantity.length; i++) {
+      if (currentQuantity[i].getAttribute("id") == 'cartName') {
+        arrayA[aCounter] = currentQuantity[i].innerText;//all names present in the cart
+        aCounter++;
+      }
+    }
+    for (let i = 0; i < currentQuantity.length; i++) {
+      if (currentQuantity[i].getAttribute("class") == 'cartQuantity') {
+        arrayB[bCounter] = currentQuantity[i].value;//all quantity chosen in the cart
+        bCounter++;
+      }
+    }
+    for (let i = 0; i < arrayB.length; i++) {
+      if (arrayB[i] == 0) {
+        alert('Please choose a quantity to purchase');
+        return;
+      }
+    }
+   
+  
+    for (let i = 0; i < martProduct.length; i++){
+      if (martProduct[i].name== arrayA[cCounter]) {
+        if (martProduct[i].quantity < arrayB[cCounter]) {
+          alert('Quantity chosen to be purchased exceeded for the item ');
+          return;
+        }
+        else if (martProduct[i].quantity == arrayB[cCounter]) {
+          cartProduct.splice(i, arrayB.length);
+          callAjaxDelete(martProduct[i]._id);
+          window.localStorage.setItem('cartProduct', JSON.stringify(cartProduct));
+          cCounter++;
+        }
+        else {
+          let updateQuantity= martProduct[i].quantity - arrayB[cCounter];
+          callAjaxUpdate(martProduct[i]._id,updateQuantity);
+          window.localStorage.setItem('cartProduct', JSON.stringify(cartProduct));
+          cCounter++;
+        }
+
+      }
+    }
+   
+    $('.cart-items').children().remove();
+    cartProduct.splice(0, cartProduct.length);
+    window.localStorage.setItem('cartProduct', JSON.stringify(cartProduct));
+    alert('Thank you for your purchase. Items purchased :' + arrayA + ' with quantities ' + arrayB + ' respectively');
+    cartPricing();
+    $('#cartCounter').text(cartProduct.length);
+    $('#cartStatus').show();
+  }
+
+});
+
+
+function callAjaxDelete(deleteId)
+{
+  $.ajax({
+        type: 'DELETE',
+        url: '/cart/'+deleteId,
+        success: response => {
+          console.log(response);
+        },
+        error: response => {
+          console.log(response);
+        }
+
+      });
+}
+function callAjaxUpdate(userId,userQuantity){
+  let updateArray={id:userId, quantity:userQuantity}
+  $.ajax({
+        type: 'POST',
+        url: '/cart',
+        data: updateArray,
+        success: response => {
+          console.log(response);
+        },
+        error: response => {
+          console.log(response);
+        }
+
+      });
+}
+
+
+
+
+  </script>
+<%- include('partials/footer.ejs') %>  

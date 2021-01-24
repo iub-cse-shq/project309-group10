@@ -1,0 +1,66 @@
+<%- include('partials/header.ejs') %>
+  <title>Login</title>
+  <link rel="stylesheet" href="css/customerRegistration.css" />
+</head>
+
+<body>
+  <header class="header">
+    <ul>
+      <li id="om">Clothing Store</li>
+    </ul>
+  </header>
+  <h1 id="new">Admin Login</h1>
+
+  <% if (messages.error) { %>
+    <h1><%= messages.error %></h1>
+  <% } %>
+  
+  <form action="/adminLogin" method="POST">
+    <input id="name" type="email" name="email" placeholder="Email" />
+    <input id="password" type="password" name="password" placeholder="Password" />
+    <button id="loginButton" type="submit">Login</button>
+  </form>
+
+  
+  <button id="cancelButton">Register</button>
+
+
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script> 
+/*
+    $('#submit').click(function() {
+      let loginData = {
+        id: $('#name').val(),
+        password: $('#password').val()
+      };
+ 
+if(loginData.id&&loginData.password){
+      $.ajax({
+        type: 'POST',
+        url: '/login',
+        data: loginData,
+        success: response => {
+          console.log(response);
+          window.location.replace('/customer/'+loginData.id)
+        },
+        error: response => {
+          console.log(response);
+        }
+
+      });
+
+    }
+    else{
+      alert('Missing input data.')
+    }
+
+    });
+//------------------------------------------------------------------------------------------------------------ 
+*/   
+    $('#loginButton').click(function () {
+        window.location.replace('/adminRegistration')
+    });
+   
+  </script>
+  
+<%- include('partials/footer.ejs') %>  
