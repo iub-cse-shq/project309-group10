@@ -150,10 +150,10 @@ padding: 8px 10px;
 }
 .storeF{
     position: absolute;
-    right: 5rem;
-    top: 1rem;
-    font-size: large;
-    
+  right: 5rem;
+  top: 5px;
+  font-size: medium;
+  width: 7%;
 }
 .storeF2{
     position: absolute;
@@ -178,13 +178,13 @@ padding: 8px 10px;
     position: absolute;
     font-size: large;
     top:0px;
-    left: 44.5rem;
+    left: 27rem;
     width:0%;
 }
 .c2{
     position: absolute;
     font-size: large;
     top:0px;
-    left: 45.5rem;
+    left: 28rem;
     width:0%;
 }

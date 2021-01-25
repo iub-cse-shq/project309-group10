@@ -28,8 +28,6 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-//require('./passport/local-auth')(passport)
-
 
 
 //DB connection
@@ -42,7 +40,7 @@ mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true }, (er
 });
 
 
-app.get('/newProduct', function (request, response) {
+app.get('/newProduct',checkAuthenticated, function (request, response) {
   response.render('newProduct.ejs', {
   })
 
@@ -53,7 +51,7 @@ app.get('/customerRegistration', function (request, response) {
   })
 
 })
-app.get('/adminRegistration',  checkAuthenticated, function (request, response) {
+app.get('/adminRegistration',checkAuthenticated, function (request, response) {
   response.render('adminRegistration.ejs', {
   })
 
@@ -69,12 +67,10 @@ app.get('/adminLogin', function (request, response) {
   })
 
 })
-app.get('/adminCart', checkAuthenticated, function (request, response) {
-  martPro.find({}, function (err, data) { response.render('adminCart', { products: data }) })
-})
+
 
 app.get('/cart', checkAuthenticated, function (request, response) {
-  martPro.find({}, function (err, data) { response.render('cart', { products: data }) })
+  cartPro.find({}, function (err, data) { response.render('cart', { customerDashBoard:{cart:data, customer:request.user} }) })
 })
 
 app.post('/newProduct', function (request, response) {
@@ -170,51 +166,95 @@ app.delete('/cart/:id', function (request, respond) {
 
 });
 
-app.post('/adminLogin', (req, res, next) => {passport.authenticate('admin', {
+app.post('/adminLogin', (request, response, next) => {passport.authenticate('admin', {
   successRedirect: '/admin',
   failureRedirect: '/adminLogin',
   failureFlash: true
-})(req, res, next);
+})(request, response, next);
 });
 
 
 
-app.post('/customerLogin', (req, res, next) => {passport.authenticate('customer', {
+app.post('/customerLogin', (request, response, next) => {passport.authenticate('customer', {
   successRedirect: '/customer',
   failureRedirect: '/customerLogin',
   failureFlash: true
-})(req, res, next);
+})(request, response, next);
 });
-
-
-
-
 
 
 
 
 
 app.get('/customer', checkAuthenticated, (request, response) => {
-  martPro.find({}, function (err, data) { response.render('customer.ejs', { products: data }) })
+  martPro.find({}, function (err, data) { response.render('customer.ejs', { customerDashBoard:{mart:data, customer:request.user} }) })
 });
 
+app.post('/customer', function (request, response) {
+ 
+  var newCartProduct = new cartPro(request.body)
+  newCartProduct.save(function (err, data) {
+    if (err)
+      return response.status(400).json({
+        error: 'required product data is missing'
+      })
+    return response.status(200).json({
+      message: 'Product data inserted into database successfully'
+    })
+  })
+})
+
+app.get('/customerProductDetail/:id', checkAuthenticated, function (request, response) {
+  martPro.findById(request.params.id, function (err, data) {
+    response.render('customerProductDetail.ejs', { individualProduct: data })
+  })
+})
+
+
+
+
 app.get('/admin', checkAuthenticated, (request, response) => {
-  martPro.find({}, function (err, data) { response.render('admin.ejs', { products: data }) })
+  martPro.find({}, function (err, data) { response.render('admin.ejs', {adminDashBoard:{mart:data, admin:request.user} }) })
 });
+
+app.post('/admin',checkAuthenticated, function (request, response) {
+  var newCartProduct = new cartPro(request.body)
+  newCartProduct.save(function (err, data) {
+    if (err)
+      return response.status(400).json({
+        error: 'required product data is missing'
+      })
+    return response.status(200).json({
+      message: 'Product data inserted into database successfully'
+    })
+  })
+})
+
+
+
+app.get('/adminProductDetail/:id',checkAuthenticated, function (request, response) {
+  martPro.findById(request.params.id, function (err, data) {
+    response.render('adminProductDetail.ejs', { individualProduct: data })
+  })
+})
+
+app.get('/adminCart', checkAuthenticated, function (request, response) {
+  cartPro.find({}, function (err, data) { response.render('adminCart', {adminDashBoard:{cart:data, admin:request.user} }) })
+})
+
 
 
 function checkAuthenticated(request, response, next) {
   if (request.isAuthenticated()) {
-    return next()
+      return next()
   }
   response.redirect('/')
 }
 
 
-
-app.delete('/logout', (request,response)=>{
-  request.logOut()
-  request.redirect('/')
+app.get('/logout', (request,response)=>{
+  request.logout()
+  response.redirect('/')
 })
 
 

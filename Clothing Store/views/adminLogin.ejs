@@ -12,7 +12,7 @@
   <h1 id="new">Admin Login</h1>
 
   <% if (messages.error) { %>
-    <h1><%= messages.error %></h1>
+    <p id="loginMessage"><%= messages.error %></p>
   <% } %>
   
   <form action="/adminLogin" method="POST">

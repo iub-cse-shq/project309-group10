@@ -11,7 +11,7 @@
     <img id="image" src="<%=individualProduct.url%>" />
     <span id="cartDescription"><%=individualProduct.description%></span>
     <p id="cartPrice">Tk:<%=individualProduct.price%></p>
-    <button class="backButton" onclick="window.location.href='/';">Back</button>
+    <button class="backButton" onclick="window.location.href='/customer';">Back</button>
     <button class="addCartDetail" type="button">Cart</button>
     
   </div>
@@ -22,9 +22,24 @@
     var singleProduct = JSON.parse(`<%-JSON.stringify(individualProduct)%>`);
 
     $('.addCartDetail').click(function (event) {
-      alert('Please register in our store. It is very easy. Already registered then please login')
-    });
+  /*    
+      $.ajax({
+        type: 'POST',
+        url: '/customerProductDetail',
+        data: singleProduct,
+        success: response => {
+          console.log(response);
+          alert('Product '+singleProduct.name+' is added to the market')
+        },
+        error: response => {
+          console.log(response);
+        }
 
+      });
+      
+    */  
+
+    });
 
 
 

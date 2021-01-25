@@ -10,7 +10,7 @@ module.exports = function(passport) {
           email: email
         }).then(user => {
           if (!user) {
-            return done(null, false, { message: 'That email is not registered' });
+            return done(null, false, { message: 'Invalid email. Please try again.' });
           }
   
           // Match password
@@ -19,7 +19,7 @@ module.exports = function(passport) {
             if (isMatch) {
               return done(null, user);
             } else {
-              return done(null, false, { message: 'Password incorrect' });
+              return done(null, false, { message: 'Invalid password. Please try again.' });
             }
           });
         });
@@ -31,7 +31,7 @@ module.exports = function(passport) {
         email: email
       }).then(user => {
         if (!user) {
-          return done(null, false, { message: 'That email is not registered' });
+          return done(null, false, { message: 'Invalid email' });
         }
 
         // Match password
@@ -40,7 +40,7 @@ module.exports = function(passport) {
           if (isMatch) {
             return done(null, user);
           } else {
-            return done(null, false, { message: 'Password incorrect' });
+            return done(null, false, { message: 'Invalid password' });
           }
         });
       });
@@ -52,12 +52,7 @@ module.exports = function(passport) {
     });
   
     passport.deserializeUser(function(obj, done) {
-      /*
-      customerAccount.findById(id, function(err, user) {
-        done(err, user);
-      });
-
-      */
+     
      switch (obj.type) {
       case 'customer':
           customerAccount.findById(obj.id)
@@ -66,7 +61,7 @@ module.exports = function(passport) {
                       done(null, user);
                   }
                   else {
-                      done(new Error('customer id not found:' + obj.id, null));
+                      done(new Error('Customer id not found:' + obj.id, null));
                   }
               });
           break;
@@ -76,12 +71,12 @@ module.exports = function(passport) {
                   if (device) {
                       done(null, device);
                   } else {
-                      done(new Error('admin id not found:' + obj.id, null));
+                      done(new Error('Admin id not found:' + obj.id, null));
                   }
               });
           break;
       default:
-          done(new Error('no entity type:', obj.type), null);
+          done(new Error('No entity type:', obj.type), null);
           break;
   }
 

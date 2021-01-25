@@ -21,7 +21,7 @@ html, body {
 }
 form{
     position: absolute;
-    top: 10rem;
+    top: 12rem;
     left: 40rem;
 }
 #name, #password, #address, #email, #phone, #type{
@@ -62,27 +62,27 @@ button:hover{
     position: relative;
     text-align: center;
     margin-top: 50%;
-    bottom: 6rem;
-    left:1rem;
+    bottom: 7.75rem;
+    left:0.5rem;
 }
 #loginButton{
     position: relative;
     text-align: center;
     margin-top: 50%;
-    bottom: 0rem;
-    left:1rem;
+    bottom: 2rem;
+    left:0rem;
 }
 #cancel{
     position: absolute;
     text-align: center;
-    bottom: 5rem;
-    left: 55rem;
+    bottom: 4.75rem;
+    left: 53.5rem;
 }
 #cancelButton{
     position: absolute;
     text-align: center;
     bottom: 13.5rem;
-    left: 55rem;
+    left: 53rem;
 }
 P{
     width:0%;
@@ -98,4 +98,13 @@ P{
     font-weight: bold;
     top:1rem;
     left: 45%;
+}
+#loginMessage{
+    position:absolute;
+    top:10rem;
+    left: 40rem;
+    font-size: large;
+    font-weight: bolder;
+    color: red;
+    width: auto;
 }

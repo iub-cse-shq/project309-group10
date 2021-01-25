@@ -1,0 +1,54 @@
+<%- include('partials/header.ejs') %>
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="/css/productDetail.css" />
+</head>
+
+<body>
+
+  <div id="productView">
+    
+    <span id="cartName"><%=individualProduct.name%></span>
+    <img id="image" src="<%=individualProduct.url%>" />
+    <span id="cartDescription"><%=individualProduct.description%></span>
+    <p id="cartPrice">Tk:<%=individualProduct.price%></p>
+    <button class="backButton" onclick="window.location.href='/admin';">Back</button>
+    <button class="addCartDetail" type="button">Cart</button>
+    
+  </div>
+
+  <script src="/js/jquery-3.5.1.min.js"></script>
+  <script>
+
+    var singleProduct = JSON.parse(`<%-JSON.stringify(individualProduct)%>`);
+
+    $('.addCartDetail').click(function (event) {
+      alert('Please register in our store. It is very easy.')
+      
+        //cartItemName=singleProduct.name;
+       
+      
+      
+      
+       // alert('Item ' + cartItemName + ' is added to the cart');
+
+    });
+/*
+    function addToCart(cartItemName) {
+      
+                let cartItemPic = singleProduct.url;
+                let cartItemPrice = singleProduct.price;
+                let cartItemQuantity = singleProduct.quantity;
+                let cartItemDescription = singleProduct.description;
+                let newCartProduct = { name: cartItemName, description: cartItemDescription, url: cartItemPic, quantity: cartItemQuantity, price: cartItemPrice };
+                cartProduct.push(newCartProduct);
+                window.localStorage.setItem('cartProduct', JSON.stringify(cartProduct));
+               
+            }
+
+   */  
+
+
+
+  </script>
+
+<%- include('partials/footer.ejs') %>  

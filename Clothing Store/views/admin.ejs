@@ -2,100 +2,123 @@
     <title>Online Marketplace</title>
     <link rel="stylesheet" href="/css/StoreFront.css" />
     </head>
+    <%adminData=adminDashBoard.admin%>
 
-    <body>
-        <header class="header">
-            <ul>
-                <li id="om">Clothing Store</li>
-                <li id="c8"><a class="c1" href="/adminRegistration">Admin Registration</a></li>
-                <li id="c4"><a class="c1" href="/adminCart">Cart</a>(</li>
-                <P id=cartCounter>0</P>
-                <P id="c2">)</P>
-                <li id="c5"><a class="c1" href="/">Logout</a></li>
+        <body>
+            <header class="header">
+                <ul>
+                    <li id="om">Welcome <%=adminData.name%>
+                    </li>
+                    <li id="c8"><a class="c1" href="/adminRegistration">Admin Registration</a></li>
+                    <li id="c4"><a class="c1" href="/adminCart">Cart</a>(</li>
+                    <P id=cartCounter>0</P>
+                    <P id="c2">)</P>
+                    <form action="/logout" method="GET">
+                        <button id="c5" type="submit">Logout</button>
+                    </form>
 
+                </ul>
+            </header>
 
-            </ul>
-        </header>
-      
-<!---------------------------------------------------------------------------------------------------------------------------------->
-<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+            <!---------------------------------------------------------------------------------------------------------------------------------->
+            <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 
-<div class="wrapper">
-    <div class="sidebar">
-     
-        <ul>
-            <li><a href="#"><i class="fas fa-search"></i>All</a></li>
-            <li><a href="#"><i class="fas fa-tshirt"></i>Shirts</a></li>
-            <li><a href="#"><i class="fas fa-shoe-prints"></i>Shoes</a></li>
-            <li><a href="#"><i class="fas fa-hat-cowboy"></i>Hats</a></li>
-        </ul> 
+            <div class="wrapper">
+                <div class="sidebar">
 
-
-
-
- <!------------------------------------------------------------------------------------------------------------------------------------>       
+                    <ul>
+                        <li><a href="#"><i class="fas fa-search"></i>All</a></li>
+                        <li><a href="#"><i class="fas fa-tshirt"></i>Shirts</a></li>
+                        <li><a href="#"><i class="fas fa-shoe-prints"></i>Shoes</a></li>
+                        <li><a href="#"><i class="fas fa-hat-cowboy"></i>Hats</a></li>
+                    </ul>
 
 
 
 
-
-        <div id="mainDiv">
-            <% if(products.length>0) { %>
-                <% products.forEach(product=> { %>
-                    <div id="divStoreItem">
-                        <a class="storeName" name="name" href='/productDetail/<%=product._id%>'>
-                            <%= product.name %>
-                        </a>
-                        <img id="storeImage" name="url" src="<%=product.url%>" />
-                        <span id="storeCartPrice ">Taka:<%= product.price %></span>
-                        <button class="buttonCart" type="submit">Cart</button>
-                    </div>
-                    <% }) %>
-                        <% } else { %>
-                            <p id="storeFrontStatus">No product available.</p>
-                            <% } %>
-        </div>
-        <%let martProductInEJS=JSON.stringify(products)%>
+                    <!------------------------------------------------------------------------------------------------------------------------------------>
 
 
-            <script src="/js/jquery-3.5.1.min.js"></script>
-            <script>
-                martProduct = [];
-                try {
-                    martProduct = JSON.parse(`<%-martProductInEJS%>`);
-                }
-                catch (err) {
-                    alert('Error in parsing')
-                }
+                    <%products=adminDashBoard.mart%>
+
+
+                        <div id="mainDiv">
+                            <% if(products.length>0) { %>
+                                <% products.forEach(product=> { %>
+                                    <div id="divStoreItem">
+                                        <a class="storeName" name="name" href='/adminProductDetail/<%=product._id%>'>
+                                            <%= product.name %>
+                                        </a>
+                                        <img id="storeImage" name="url" src="<%=product.url%>" />
+                                        <span id="storeCartPrice ">Taka:<%= product.price %></span>
+                                        <button class="buttonCart" type="submit">Cart</button>
+                                    </div>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <p id="storeFrontStatus">No product available.</p>
+                                            <% } %>
+                        </div>
+                        <%let martProductInEJS=JSON.stringify(products)%>
+                            <%let adminInEJS=JSON.stringify(adminData)%>
+
+                                <script src="/js/jquery-3.5.1.min.js"></script>
+                                <script>
+                                    martProduct = [];
+                                    admin = [];
+                                    try {
+                                        martProduct = JSON.parse(`<%-martProductInEJS%>`);
+                                        adminData = JSON.parse(`<%-adminInEJS%>`);
+                                    }
+                                    catch (err) {
+                                        alert('Error in parsing')
+                                    }
 
 
 
-                //$('#cartCounter').text(cartProduct.length);
-                //------------------------------------------------------------------------------------------------------------------------------               
-                $('.buttonCart').click(function (event) {
+                                    //$('#cartCounter').text(cartProduct.length);
+                                    //------------------------------------------------------------------------------------------------------------------------------               
+                                    $('.buttonCart').click(function (event) {
+                                        let x = 0;
+                                        let currentProduct = $(this).parent().children();
+                                        let productName = currentProduct[0].innerText;
+                                        for (let i = 0; i < martProduct.length; i++) {
+                                            if (martProduct[i].name == productName) {
+                                                x = i;
+                                            }
+                                        }
+                                        let cartProduct = {
+                                            type: adminData.type,
+                                            userId: adminData._id,
+                                            cartItemName: martProduct[x].name,
+                                            cartDescription: martProduct[x].description,
+                                            cartUrl: martProduct[x].url,
+                                            cartQuantity: martProduct[x].quantity,
+                                            cartCategory: martProduct[x].category,
+                                            cartPrice: martProduct[x].price
+                                        };
+                                        
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/admin',
+                                            data: cartProduct,
+                                            success: response => {
+                                                console.log(response);
+                                                alert('Product ' + cartProduct.cartItemName + ' is added to cart')
+                                            },
+                                            error: response => {
+                                                console.log(response);
+                                            }
+
+                                        });
+
+                                    });
 
 
-                });
-              /*  
-                $('.c1').click(function (event) {
-                    $.ajax({
-                        type: 'DELETE',
-                        url: '/logout',
-                        success: response => {
-                            console.log(response);
-                        },
-                        error: response => {
-                            console.log(response);
-                        }
 
-                    });
-
-                });
-               */ 
                 //-----------------------------------------------------------------------------------------------------------------------------
 
 
 
-            </script>
+                                </script>
 
-            <%- include('partials/footer.ejs') %>
+                                <%- include('partials/footer.ejs') %>
